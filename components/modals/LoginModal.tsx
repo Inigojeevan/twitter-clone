@@ -3,14 +3,9 @@ import { useCallback, useState } from "react";
 import Input from "../Input";
 import Modal from "../Modal";
 
-interface UserData {
-    email: string;
-    password: string;
-}
-
 const LoginModal = () => {
 
-    const LoginModal = useLoginModal();
+    const loginModal = useLoginModal();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,13 +16,13 @@ const LoginModal = () => {
             setIsLoading(true)
 
 
-            LoginModal.onClose();
+            loginModal.onClose();
         } catch (error) {
             console.log(error)
         } finally {
             setIsLoading(false)
         }
-    }, [LoginModal])
+    }, [loginModal])
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
@@ -37,7 +32,7 @@ const LoginModal = () => {
     )
 
     return (
-        <Modal disabled={isLoading} isOpen={LoginModal.isOpen} title="Login" actionLabel="Sign-in" onClose={LoginModal.onClose} onSubmit={onSubmit} body={bodyContent}/>
+        <Modal disabled={isLoading} isOpen={loginModal.isOpen} title="Login" actionLabel="Sign-in" onClose={loginModal.onClose} onSubmit={onSubmit} body={bodyContent}/>
     )
 }
 

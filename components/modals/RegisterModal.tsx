@@ -6,8 +6,8 @@ import useRegisterModal from "@/hooks/useRegisterModal";
 
 const RegisterModal = () => {
  
-    const LoginModal = useLoginModal();
-    const RegisterModal = useRegisterModal();
+    const loginModal = useLoginModal();
+    const registerModal = useRegisterModal();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,18 +15,29 @@ const RegisterModal = () => {
     const [username, setUsername] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+
+    const onToggle = useCallback(() => {
+        console.log("triggered onToggle")
+        if(isLoading) {
+            return;
+        }
+
+        registerModal.onClose();
+        loginModal.onOpen();
+    }, [isLoading, registerModal, loginModal])
+
     const onSubmit = useCallback(async () => {
         try{
             setIsLoading(true)
 
 
-            RegisterModal.onClose();
+            registerModal.onClose();
         } catch (error) {
             console.log(error)
         } finally {
             setIsLoading(false)
         }
-    }, [LoginModal])
+    }, [loginModal])
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
@@ -43,12 +54,12 @@ const RegisterModal = () => {
                 text-white
                 cursor-pointer
                 hover:underline
-            ">Sign-in</span></p>
+            " onClick={onToggle}>Sign-in</span></p>
         </div>
     )
 
     return (
-        <Modal disabled={isLoading} isOpen={RegisterModal.isOpen} title="Create an account" actionLabel="Register" onClose={RegisterModal.onClose} onSubmit={onSubmit} body={bodyContent} footer={footerContent}/>
+        <Modal disabled={isLoading} isOpen={registerModal.isOpen} title="Create an account" actionLabel="Register" onClose={registerModal.onClose} onSubmit={onSubmit} body={bodyContent} footer={footerContent}/>
     )
 }
 
